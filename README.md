@@ -1,4 +1,4 @@
-# LA Metro Bike Share: quarterly change tracker
+# RideLens AI: LA Metro bike-share quarterly change tracker
 
 When a new quarterly trip file is published, this project checks it, compares it
 with the same quarter in earlier years, and flags changes that look real.
@@ -7,18 +7,18 @@ Status: **work in progress.** Data checks and models are built and tested. The
 LangGraph agent, RAG, MCP tools, Streamlit dashboard and Airflow schedule are not
 started.
 
-## What is here
+## Layout
 
-| Piece | File | Status |
-|---|---|---|
-| Normalise every era of trip files to one schema | `normalize.py` | done, used by all steps below |
-| Quarterly quality gate (plain code, hard checks) | `quality_gate.py`, `run_gate_all.py` | done, 37 of 39 quarters pass; 2020 Q3 and 2020 Q4 fail on missing values (flagged, kept) |
-| Gate tests (fault injection) | `tests/test_quality_gate.py` | 11 passing |
-| Season-matched Isolation Forest | `models/train_season_matched.py` | done; trains on 2019 onward, same quarter-of-year only |
-| Injected-fault evaluation: rules vs Isolation Forest | `models/eval_injected.py` | done |
-| Uncovered-fault evaluation: rules vs Isolation Forest vs LOF vs HBOS | `models/eval_uncovered.py` | done |
-| Quarter-level hour-of-day check | `models/quarter_hour_check.py` | done |
-| Superseded first model (mixed seasons, kept for history) | `models/train_trip_model.py`, `models/trip_iforest_v1.*` | superseded; the script's paths no longer match the data layout |
+```
+data/          raw CSVs (not in git) and manifest.json (gate results per quarter)
+pipeline/      clean and check the data: normalize.py, quality_gate.py, run_gate_all.py
+training/      season-matched Isolation Forest: train_season_matched.py
+evaluation/    fault-injection tests: eval_injected.py, eval_uncovered.py, quarter_hour_check.py
+models/        trained model files (.joblib), one per test quarter
+results/       every evaluation result as .json
+legacy/        first model (mixed seasons), superseded, kept for history
+tests/         gate tests (11)
+```
 
 ## Key results so far
 
@@ -38,30 +38,34 @@ real anomalies yet.
 ## Data
 
 Raw trip files are **not in this repo** (about 450 MB). Put each quarter's trip CSV in
-`data/raw/<YYYY>-Q<q>/` (for example `data/raw/2026-Q3/metro-trips-2026-q3.csv`).
+`data/raw/<YYYY>-Q<q>/`, for example `data/raw/2026-Q3/metro-trips-2026-q3.csv`.
 The 39 quarters from 2017 Q1 to 2026 Q3 come from the public LA Metro bike-share
 archive. Only quarters from 2019 onward are used for training.
 
 ## Setup
 
+Use Python 3.12 or newer.
+
 ```bash
-python3 -m venv .venv
+python3.12 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
 ## Run
 
+Run everything from the project root.
+
 ```bash
-python -m pytest -q tests                  # gate tests
-python run_gate_all.py                     # gate every quarter, writes data/manifest.json
-python models/train_season_matched.py      # season-matched models (a few minutes)
-python models/eval_injected.py             # rules vs Isolation Forest, planted faults
-python models/eval_uncovered.py            # adds LOF and HBOS, faults rules miss
-python models/quarter_hour_check.py        # quarter-level hour-of-day check
+python -m pytest -q tests                        # gate tests
+python pipeline/run_gate_all.py                  # gate every quarter, writes data/manifest.json
+python training/train_season_matched.py          # season-matched models (a few minutes)
+python evaluation/eval_injected.py               # rules vs Isolation Forest, planted faults
+python evaluation/eval_uncovered.py              # adds LOF and HBOS, faults rules miss
+python evaluation/quarter_hour_check.py          # quarter-level hour-of-day check
 ```
 
-Results are written to `models/*.json`.
+Results are written to `results/`.
 
 ## Design
 

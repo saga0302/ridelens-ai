@@ -16,8 +16,8 @@ import joblib
 import numpy as np
 import pandas as pd
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from train_season_matched import discover, features, haversine_km, FEATURES  # noqa: E402
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from training.train_season_matched import discover, features, haversine_km, FEATURES  # noqa: E402
 
 TEST_QUARTERS = [(2026, 3), (2026, 2), (2026, 1), (2025, 4)]
 N_CLEAN = 20_000
@@ -92,11 +92,11 @@ def main():
             print(f"  recall  {fault:<24} IF={row[f'recall_if__{fault}']:.2%}"
                   f"  rules={row[f'recall_rules__{fault}']:.2%}")
 
-    with open("models/injected_eval_results.json", "w") as f:
+    with open("results/injected_eval_results.json", "w") as f:
         json.dump({"max_speed_kmh": MAX_SPEED_KMH, "n_clean": N_CLEAN,
                    "n_fault_per_type": N_FAULT, "seed": SEED,
                    "faults": FAULTS, "results": results}, f, indent=2)
-    print("\nSaved models/injected_eval_results.json")
+    print("\nSaved results/injected_eval_results.json")
 
 
 if __name__ == "__main__":

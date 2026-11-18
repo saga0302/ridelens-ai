@@ -5,8 +5,9 @@ import os
 import re
 import sys
 
-from normalize import load_quarter
-from quality_gate import run_checks
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from pipeline.normalize import load_quarter
+from pipeline.quality_gate import run_checks
 
 manifest = []
 for d in sorted(glob.glob("data/raw/*-Q*")):

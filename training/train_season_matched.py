@@ -31,7 +31,7 @@ from sklearn.ensemble import IsolationForest
 from sklearn.preprocessing import StandardScaler
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from normalize import load_quarter  # noqa: E402
+from pipeline.normalize import load_quarter  # noqa: E402
 
 PASS_TYPES = ["Monthly Pass", "Walk-up", "One Day Pass", "Annual Pass", "Flex Pass"]
 FEATURES = ["duration_min", "distance_km", "start_hour", "is_weekend",
@@ -142,9 +142,9 @@ def main():
             "sklearn": sklearn.__version__, "features": FEATURES,
             "flag_rate": FLAG_RATE, "n_estimators": 200, "max_samples": 256,
             "random_state": 42, "results": results}
-    with open("models/season_matched_results.json", "w") as f:
+    with open("results/season_matched_results.json", "w") as f:
         json.dump(meta, f, indent=2, default=str)
-    print("\nSaved models/season_matched_results.json")
+    print("\nSaved results/season_matched_results.json")
 
 
 if __name__ == "__main__":

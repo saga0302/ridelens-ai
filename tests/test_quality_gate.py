@@ -12,7 +12,7 @@ import pytest
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
-from quality_gate import EXPECTED_COLUMNS, run_checks  # noqa: E402
+from pipeline.quality_gate import EXPECTED_COLUMNS, run_checks  # noqa: E402
 
 CLEAN_PATH = "/home/claude/metro-trips-2026-q3.csv"
 

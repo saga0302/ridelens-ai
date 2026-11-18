@@ -24,9 +24,9 @@ import numpy as np
 import pandas as pd
 from sklearn.neighbors import LocalOutlierFactor
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from train_season_matched import discover, features, FEATURES  # noqa: E402
-from eval_injected import rule_flags, inject as inject_covered  # noqa: E402
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from training.train_season_matched import discover, features, FEATURES  # noqa: E402
+from evaluation.eval_injected import rule_flags, inject as inject_covered  # noqa: E402
 
 TEST_QUARTERS = [(2026, 3), (2026, 2), (2026, 1), (2025, 4)]
 N_CLEAN = 20_000
@@ -140,11 +140,11 @@ def main():
                 f"{n}={row[f'recall__{n}__{fault}']:.1%}"
                 for n in ["rules", "isolation_forest", "lof", "hbos"]))
 
-    with open("models/uncovered_eval_results.json", "w") as f:
+    with open("results/uncovered_eval_results.json", "w") as f:
         json.dump({"n_clean": N_CLEAN, "n_fault_per_type": N_FAULT, "seed": SEED,
                    "covered": COVERED, "uncovered": UNCOVERED, "results": rows},
                   f, indent=2)
-    print("\nSaved models/uncovered_eval_results.json")
+    print("\nSaved results/uncovered_eval_results.json")
 
 
 if __name__ == "__main__":
