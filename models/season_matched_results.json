@@ -1,0 +1,120 @@
+{
+  "trained_at": "2026-11-17T00:11:47.254540+00:00",
+  "sklearn": "1.9.1",
+  "features": [
+    "duration_min",
+    "distance_km",
+    "start_hour",
+    "is_weekend",
+    "is_round_trip",
+    "pass_Monthly Pass",
+    "pass_Walk-up",
+    "pass_One Day Pass",
+    "pass_Annual Pass",
+    "pass_Flex Pass"
+  ],
+  "flag_rate": 0.05,
+  "n_estimators": 200,
+  "max_samples": 256,
+  "random_state": 42,
+  "results": [
+    {
+      "test": "2026-Q3",
+      "test_trips": 103106,
+      "train_quarters": [
+        "2019-Q3",
+        "2020-Q3",
+        "2021-Q3",
+        "2022-Q3",
+        "2023-Q3",
+        "2024-Q3",
+        "2025-Q3"
+      ],
+      "flagged_share_test": 0.0562,
+      "flagged_share_test_without_2017_2018": 0.0562,
+      "train_quarter_flagged_share": {
+        "2019-Q3": 0.0322,
+        "2020-Q3": 0.066,
+        "2021-Q3": 0.0599,
+        "2022-Q3": 0.0578,
+        "2023-Q3": 0.0498,
+        "2024-Q3": 0.0504,
+        "2025-Q3": 0.0476
+      },
+      "threshold": -0.6022968428082364
+    },
+    {
+      "test": "2026-Q2",
+      "test_trips": 104654,
+      "train_quarters": [
+        "2019-Q2",
+        "2020-Q2",
+        "2021-Q2",
+        "2022-Q2",
+        "2023-Q2",
+        "2024-Q2",
+        "2025-Q2"
+      ],
+      "flagged_share_test": 0.0589,
+      "flagged_share_test_without_2017_2018": 0.0589,
+      "train_quarter_flagged_share": {
+        "2019-Q2": 0.0232,
+        "2020-Q2": 0.0641,
+        "2021-Q2": 0.0718,
+        "2022-Q2": 0.0589,
+        "2023-Q2": 0.0508,
+        "2024-Q2": 0.0447,
+        "2025-Q2": 0.0479
+      },
+      "threshold": -0.6038587314487689
+    },
+    {
+      "test": "2026-Q1",
+      "test_trips": 88932,
+      "train_quarters": [
+        "2019-Q1",
+        "2020-Q1",
+        "2021-Q1",
+        "2022-Q1",
+        "2023-Q1",
+        "2024-Q1",
+        "2025-Q1"
+      ],
+      "flagged_share_test": 0.0588,
+      "flagged_share_test_without_2017_2018": 0.0588,
+      "train_quarter_flagged_share": {
+        "2019-Q1": 0.0293,
+        "2020-Q1": 0.0295,
+        "2021-Q1": 0.0929,
+        "2022-Q1": 0.0737,
+        "2023-Q1": 0.0528,
+        "2024-Q1": 0.0453,
+        "2025-Q1": 0.0503
+      },
+      "threshold": -0.6015215889280017
+    },
+    {
+      "test": "2025-Q4",
+      "test_trips": 95625,
+      "train_quarters": [
+        "2019-Q4",
+        "2020-Q4",
+        "2021-Q4",
+        "2022-Q4",
+        "2023-Q4",
+        "2024-Q4"
+      ],
+      "flagged_share_test": 0.0502,
+      "flagged_share_test_without_2017_2018": 0.0502,
+      "train_quarter_flagged_share": {
+        "2019-Q4": 0.0294,
+        "2020-Q4": 0.0691,
+        "2021-Q4": 0.0673,
+        "2022-Q4": 0.0605,
+        "2023-Q4": 0.0461,
+        "2024-Q4": 0.0452
+      },
+      "threshold": -0.603035203151552
+    }
+  ]
+}

@@ -1,0 +1,147 @@
+{
+  "first_year": 2019,
+  "shift_fractions": [
+    0.01,
+    0.05,
+    0.2,
+    1.0
+  ],
+  "seed": 42,
+  "results": [
+    {
+      "test": "2026-Q3",
+      "n_train": 7,
+      "threshold": 0.06287,
+      "loo_distances": {
+        "2019-Q3": 0.06287,
+        "2020-Q3": 0.02386,
+        "2021-Q3": 0.03535,
+        "2022-Q3": 0.01418,
+        "2023-Q3": 0.02539,
+        "2024-Q3": 0.01637,
+        "2025-Q3": 0.01842
+      },
+      "clean_distance": 0.01394,
+      "clean_flagged": false,
+      "shifted": {
+        "1%": {
+          "distance": 0.01673,
+          "flagged": false
+        },
+        "5%": {
+          "distance": 0.03035,
+          "flagged": false
+        },
+        "20%": {
+          "distance": 0.09248,
+          "flagged": true
+        },
+        "100%": {
+          "distance": 0.44137,
+          "flagged": true
+        }
+      }
+    },
+    {
+      "test": "2026-Q2",
+      "n_train": 7,
+      "threshold": 0.07044,
+      "loo_distances": {
+        "2019-Q2": 0.07044,
+        "2020-Q2": 0.05022,
+        "2021-Q2": 0.03284,
+        "2022-Q2": 0.01534,
+        "2023-Q2": 0.01363,
+        "2024-Q2": 0.01812,
+        "2025-Q2": 0.01722
+      },
+      "clean_distance": 0.01672,
+      "clean_flagged": false,
+      "shifted": {
+        "1%": {
+          "distance": 0.01812,
+          "flagged": false
+        },
+        "5%": {
+          "distance": 0.03078,
+          "flagged": false
+        },
+        "20%": {
+          "distance": 0.09866,
+          "flagged": true
+        },
+        "100%": {
+          "distance": 0.46053,
+          "flagged": true
+        }
+      }
+    },
+    {
+      "test": "2026-Q1",
+      "n_train": 7,
+      "threshold": 0.07167,
+      "loo_distances": {
+        "2019-Q1": 0.06395,
+        "2020-Q1": 0.06465,
+        "2021-Q1": 0.07167,
+        "2022-Q1": 0.02747,
+        "2023-Q1": 0.02984,
+        "2024-Q1": 0.03223,
+        "2025-Q1": 0.01848
+      },
+      "clean_distance": 0.0277,
+      "clean_flagged": false,
+      "shifted": {
+        "1%": {
+          "distance": 0.02824,
+          "flagged": false
+        },
+        "5%": {
+          "distance": 0.03807,
+          "flagged": false
+        },
+        "20%": {
+          "distance": 0.1,
+          "flagged": true
+        },
+        "100%": {
+          "distance": 0.46297,
+          "flagged": true
+        }
+      }
+    },
+    {
+      "test": "2025-Q4",
+      "n_train": 6,
+      "threshold": 0.07835,
+      "loo_distances": {
+        "2019-Q4": 0.07835,
+        "2020-Q4": 0.04271,
+        "2021-Q4": 0.03474,
+        "2022-Q4": 0.02962,
+        "2023-Q4": 0.0304,
+        "2024-Q4": 0.01768
+      },
+      "clean_distance": 0.01971,
+      "clean_flagged": false,
+      "shifted": {
+        "1%": {
+          "distance": 0.021,
+          "flagged": false
+        },
+        "5%": {
+          "distance": 0.0356,
+          "flagged": false
+        },
+        "20%": {
+          "distance": 0.09964,
+          "flagged": true
+        },
+        "100%": {
+          "distance": 0.45555,
+          "flagged": true
+        }
+      }
+    }
+  ]
+}

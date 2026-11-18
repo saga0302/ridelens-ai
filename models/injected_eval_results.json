@@ -1,0 +1,79 @@
+{
+  "max_speed_kmh": 60.0,
+  "n_clean": 20000,
+  "n_fault_per_type": 2000,
+  "seed": 42,
+  "faults": [
+    "teleport_end_30km",
+    "impossible_speed",
+    "missing_end_coords",
+    "duration_out_of_range",
+    "duration_zero"
+  ],
+  "results": [
+    {
+      "test": "2026-Q3",
+      "clean_trips": 20000,
+      "fp_if": 0.0548,
+      "fp_rules": 0.0315,
+      "recall_if__teleport_end_30km": 0.566,
+      "recall_rules__teleport_end_30km": 0.827,
+      "recall_if__impossible_speed": 0.136,
+      "recall_rules__impossible_speed": 0.9995,
+      "recall_if__missing_end_coords": 0.0455,
+      "recall_rules__missing_end_coords": 1.0,
+      "recall_if__duration_out_of_range": 1.0,
+      "recall_rules__duration_out_of_range": 1.0,
+      "recall_if__duration_zero": 0.0385,
+      "recall_rules__duration_zero": 1.0
+    },
+    {
+      "test": "2026-Q2",
+      "clean_trips": 20000,
+      "fp_if": 0.06105,
+      "fp_rules": 0.04755,
+      "recall_if__teleport_end_30km": 0.446,
+      "recall_rules__teleport_end_30km": 0.839,
+      "recall_if__impossible_speed": 0.093,
+      "recall_rules__impossible_speed": 0.9995,
+      "recall_if__missing_end_coords": 0.0405,
+      "recall_rules__missing_end_coords": 1.0,
+      "recall_if__duration_out_of_range": 0.9825,
+      "recall_rules__duration_out_of_range": 1.0,
+      "recall_if__duration_zero": 0.0395,
+      "recall_rules__duration_zero": 1.0
+    },
+    {
+      "test": "2026-Q1",
+      "clean_trips": 20000,
+      "fp_if": 0.05795,
+      "fp_rules": 0.035,
+      "recall_if__teleport_end_30km": 0.6465,
+      "recall_rules__teleport_end_30km": 0.842,
+      "recall_if__impossible_speed": 0.1355,
+      "recall_rules__impossible_speed": 0.999,
+      "recall_if__missing_end_coords": 0.04,
+      "recall_rules__missing_end_coords": 1.0,
+      "recall_if__duration_out_of_range": 1.0,
+      "recall_rules__duration_out_of_range": 1.0,
+      "recall_if__duration_zero": 0.042,
+      "recall_rules__duration_zero": 1.0
+    },
+    {
+      "test": "2025-Q4",
+      "clean_trips": 20000,
+      "fp_if": 0.05175,
+      "fp_rules": 0.03025,
+      "recall_if__teleport_end_30km": 0.5135,
+      "recall_rules__teleport_end_30km": 0.8675,
+      "recall_if__impossible_speed": 0.101,
+      "recall_rules__impossible_speed": 1.0,
+      "recall_if__missing_end_coords": 0.0365,
+      "recall_rules__missing_end_coords": 1.0,
+      "recall_if__duration_out_of_range": 1.0,
+      "recall_rules__duration_out_of_range": 1.0,
+      "recall_if__duration_zero": 0.023,
+      "recall_rules__duration_zero": 1.0
+    }
+  ]
+}

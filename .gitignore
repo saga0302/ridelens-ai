@@ -1,0 +1,7 @@
+# raw data is large and public; keep it out of git
+data/raw/
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+.DS_Store

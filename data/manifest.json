@@ -1,0 +1,543 @@
+[
+  {
+    "rows_in": 33786,
+    "renamed": {
+      "start_station_id": "start_station",
+      "end_station_id": "end_station"
+    },
+    "dropped_columns": [],
+    "added_columns": [
+      "bike_type (all missing in source)"
+    ],
+    "testing_rows_dropped": 0,
+    "rows_out": 33786,
+    "source": "data/raw/2017-Q1/la_metro_gbfs_trips_Q1_2017.csv",
+    "year": 2017,
+    "quarter": 1,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 51918,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [
+      "bike_type (all missing in source)"
+    ],
+    "testing_rows_dropped": 0,
+    "rows_out": 51918,
+    "source": "data/raw/2017-Q2/la_metro_gbfs_trips_Q2_2017.csv",
+    "year": 2017,
+    "quarter": 2,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 72337,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [
+      "bike_type (all missing in source)"
+    ],
+    "testing_rows_dropped": 0,
+    "rows_out": 72337,
+    "source": "data/raw/2017-Q3/metro-bike-share-trips-2017-q3.csv",
+    "year": 2017,
+    "quarter": 3,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 71214,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [
+      "bike_type (all missing in source)"
+    ],
+    "testing_rows_dropped": 0,
+    "rows_out": 71214,
+    "source": "data/raw/2017-Q4/metro-bike-share-trips-2017-q4-v2.csv",
+    "year": 2017,
+    "quarter": 4,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 65387,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [
+      "bike_type (all missing in source)"
+    ],
+    "testing_rows_dropped": 0,
+    "rows_out": 65387,
+    "source": "data/raw/2018-Q1/metro-bike-share-trips-2018-q1.csv",
+    "year": 2018,
+    "quarter": 1,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 77357,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [
+      "bike_type (all missing in source)"
+    ],
+    "testing_rows_dropped": 0,
+    "rows_out": 77357,
+    "source": "data/raw/2018-Q2/metro-bike-share-trips-2018-q2.csv",
+    "year": 2018,
+    "quarter": 2,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 95283,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [
+      "bike_type (all missing in source)"
+    ],
+    "testing_rows_dropped": 0,
+    "rows_out": 95283,
+    "source": "data/raw/2018-Q3/metro-bike-share-trips-2018-q3.csv",
+    "year": 2018,
+    "quarter": 3,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 73867,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 0,
+    "rows_out": 73867,
+    "source": "data/raw/2018-Q4/metro-bike-share-trips-2018-q4.csv",
+    "year": 2018,
+    "quarter": 4,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 57358,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 11,
+    "rows_out": 57347,
+    "source": "data/raw/2019-Q1/metro-bike-share-trips-2019-q1.csv",
+    "year": 2019,
+    "quarter": 1,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 64545,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 37,
+    "rows_out": 64508,
+    "source": "data/raw/2019-Q2/metro-bike-share-trips-2019-q2.csv",
+    "year": 2019,
+    "quarter": 2,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 92124,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 46,
+    "rows_out": 92078,
+    "source": "data/raw/2019-Q3/metro-bike-share-trips-2019-q3.csv",
+    "year": 2019,
+    "quarter": 3,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 76315,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 19,
+    "rows_out": 76296,
+    "source": "data/raw/2019-Q4/metro-bike-share-trips-2019-q4.csv",
+    "year": 2019,
+    "quarter": 4,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 76391,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 16,
+    "rows_out": 76375,
+    "source": "data/raw/2020-Q1/metro-bike-share-trips-2020-q1.csv",
+    "year": 2020,
+    "quarter": 1,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 54202,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 16,
+    "rows_out": 54186,
+    "source": "data/raw/2020-Q2/metro-trips-2020-q2-v2.csv",
+    "year": 2020,
+    "quarter": 2,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 41504,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 3,
+    "rows_out": 41501,
+    "source": "data/raw/2020-Q3/metro-trips-2020-q3.csv",
+    "year": 2020,
+    "quarter": 3,
+    "gate_passed": false,
+    "gate_failures": [
+      {
+        "check": "null_rate_end_lat",
+        "detail": "6.6% missing (limit 5%)"
+      },
+      {
+        "check": "null_rate_end_lon",
+        "detail": "6.6% missing (limit 5%)"
+      }
+    ]
+  },
+  {
+    "rows_in": 37877,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 0,
+    "rows_out": 37877,
+    "source": "data/raw/2020-Q4/metro-trips-2020-q4.csv",
+    "year": 2020,
+    "quarter": 4,
+    "gate_passed": false,
+    "gate_failures": [
+      {
+        "check": "null_rate_passholder_type",
+        "detail": "12.5% missing (limit 5%)"
+      }
+    ]
+  },
+  {
+    "rows_in": 40858,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 0,
+    "rows_out": 40858,
+    "source": "data/raw/2021-Q1/metro-trips-2021-q1.csv",
+    "year": 2021,
+    "quarter": 1,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 59081,
+    "renamed": {},
+    "dropped_columns": [
+      "start station name",
+      "end station name"
+    ],
+    "added_columns": [],
+    "testing_rows_dropped": 0,
+    "rows_out": 59081,
+    "source": "data/raw/2021-Q2/metro-trips-2021-q2.csv",
+    "year": 2021,
+    "quarter": 2,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 58411,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 1,
+    "rows_out": 58410,
+    "source": "data/raw/2021-Q3/metro-trips-2021-q3.csv",
+    "year": 2021,
+    "quarter": 3,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 62647,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 0,
+    "rows_out": 62647,
+    "source": "data/raw/2021-Q4/metro-trips-2021-q4.csv",
+    "year": 2021,
+    "quarter": 4,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 56107,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 0,
+    "rows_out": 56107,
+    "source": "data/raw/2022-Q1/metro-trips-2022-q1.csv",
+    "year": 2022,
+    "quarter": 1,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 68660,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 0,
+    "rows_out": 68660,
+    "source": "data/raw/2022-Q2/metro-trips-2022-q2.csv",
+    "year": 2022,
+    "quarter": 2,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 85171,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 5,
+    "rows_out": 85166,
+    "source": "data/raw/2022-Q3/metro-trips-2022-q3.csv",
+    "year": 2022,
+    "quarter": 3,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 80372,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 0,
+    "rows_out": 80372,
+    "source": "data/raw/2022-Q4/metro-trips-2022-q4.csv",
+    "year": 2022,
+    "quarter": 4,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 72229,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 0,
+    "rows_out": 72229,
+    "source": "data/raw/2023-Q1/metro-trips-2023-q1.csv",
+    "year": 2023,
+    "quarter": 1,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 109436,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 0,
+    "rows_out": 109436,
+    "source": "data/raw/2023-Q2/metro-trips-2023-q2.csv",
+    "year": 2023,
+    "quarter": 2,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 130753,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 0,
+    "rows_out": 130753,
+    "source": "data/raw/2023-Q3/metro-trips-2023-q3.csv",
+    "year": 2023,
+    "quarter": 3,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 128692,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 0,
+    "rows_out": 128692,
+    "source": "data/raw/2023-Q4/metro-trips-2023-q4.csv",
+    "year": 2023,
+    "quarter": 4,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 119849,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 0,
+    "rows_out": 119849,
+    "source": "data/raw/2024-Q1/metro-trips-2024-q1.csv",
+    "year": 2024,
+    "quarter": 1,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 143616,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 0,
+    "rows_out": 143616,
+    "source": "data/raw/2024-Q2/metro-trips-2024-q2.csv",
+    "year": 2024,
+    "quarter": 2,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 134918,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 0,
+    "rows_out": 134918,
+    "source": "data/raw/2024-Q3/metro-trips-2024-q3.csv",
+    "year": 2024,
+    "quarter": 3,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 120854,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 0,
+    "rows_out": 120854,
+    "source": "data/raw/2024-Q4/metro-trips-2024-q4.csv",
+    "year": 2024,
+    "quarter": 4,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 95916,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 0,
+    "rows_out": 95916,
+    "source": "data/raw/2025-Q1/metro-trips-2025-q1.csv",
+    "year": 2025,
+    "quarter": 1,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 123109,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 0,
+    "rows_out": 123109,
+    "source": "data/raw/2025-Q2/metro-trips-2025-q2.csv",
+    "year": 2025,
+    "quarter": 2,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 119865,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 0,
+    "rows_out": 119865,
+    "source": "data/raw/2025-Q3/metro-trips-2025-q3.csv",
+    "year": 2025,
+    "quarter": 3,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 95625,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 0,
+    "rows_out": 95625,
+    "source": "data/raw/2025-Q4/metro-trips-2025-q4.csv",
+    "year": 2025,
+    "quarter": 4,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 88932,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 0,
+    "rows_out": 88932,
+    "source": "data/raw/2026-Q1/metro-trips-2026-q1.csv",
+    "year": 2026,
+    "quarter": 1,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 104654,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 0,
+    "rows_out": 104654,
+    "source": "data/raw/2026-Q2/metro-trips-2026-q2.csv",
+    "year": 2026,
+    "quarter": 2,
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  {
+    "rows_in": 103106,
+    "renamed": {},
+    "dropped_columns": [],
+    "added_columns": [],
+    "testing_rows_dropped": 0,
+    "rows_out": 103106,
+    "source": "data/raw/2026-Q3/metro-trips-2026-q3.csv",
+    "year": 2026,
+    "quarter": 3,
+    "gate_passed": true,
+    "gate_failures": []
+  }
+]
