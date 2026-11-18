@@ -14,11 +14,13 @@ sys.path.insert(0, ROOT)
 
 from pipeline.quality_gate import EXPECTED_COLUMNS, run_checks  # noqa: E402
 
-CLEAN_PATH = "/home/claude/metro-trips-2026-q3.csv"
+CLEAN_PATH = os.path.join(ROOT, "data", "raw", "2026-Q3", "metro-trips-2026-q3.csv")
 
 
 @pytest.fixture(scope="module")
 def clean():
+    if not os.path.exists(CLEAN_PATH):
+        pytest.skip(f"needs {CLEAN_PATH}; raw data is not in git")
     return pd.read_csv(CLEAN_PATH)
 
 
