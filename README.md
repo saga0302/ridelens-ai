@@ -16,7 +16,7 @@ RAG, MCP tools and the Airflow schedule.
 data/          raw CSVs (not in git) and manifest.json (gate results per quarter)
 pipeline/      clean and check the data: normalize.py, quality_gate.py, run_gate_all.py
 training/      season-matched Isolation Forest: train_season_matched.py
-evaluation/    fault comparison and quarter-level check
+evaluation/    fault comparison, quarter-level check and quarter-rule backtest
 comparison/    same-quarter comparison and the per-quarter report
 models/        trained model files (.joblib), one per test quarter
 results/       training/ (season-matched model), evaluation/ (fault comparison,
@@ -49,7 +49,7 @@ and round-trip shares, and pass-type shares.
 - These numbers do not raise alerts. They describe where the quarter sits against
   past years.
 
-## Alerts (decided so far)
+## Alerts
 
 - **Data alerts:** a quarter that fails the data gate is not analysed. The report
   shows which checks failed.
@@ -57,8 +57,11 @@ and round-trip shares, and pass-type shares.
   No alert is attached.
 - **Trip examples:** flagged trips are listed, the most unusual first. A flagged trip
   is not an alarm on its own, since many will turn out to be data errors.
-- **Quarter-level rule:** not decided yet. Options are a past-range rule tested on
-  past quarters first, or report only until real uploads are checked.
+- **Quarter-level alert:** none for now. The report shows the flagged share next to
+  the 2% expectation. A backtest of a "above the highest earlier share" rule over
+  2023–2026 fired on 2 of 15 quarters, but the early 2021 model was unreliable and
+  set the bar too high. That's not enough evidence to pick a threshold, so it's
+  deferred until real uploads show what normal looks like.
 
 ## Who it's for and what it covers
 
@@ -124,6 +127,7 @@ python evaluation/quarter_hour_check.py          # quarter-level hour-of-day che
 python evaluation/threshold_check.py             # cutoff study: z-score vs percentile
 python -m comparison.run_same_quarter 2026 3     # same-quarter table for one quarter
 python -m comparison.run_report 2026 3           # full report for one quarter, saved to results/reports/
+python evaluation/backtest_quarter_rule.py       # backtest of the quarter-level rule (several minutes)
 ```
 
 ## Design

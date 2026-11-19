@@ -1,17 +1,19 @@
-"""Season-matched Isolation Forest, following the test plan in the design doc.
+"""Season-matched Isolation Forest.
 
 For each test quarter T, the model is trained only on the SAME quarter-of-year
-from earlier years (back to 2017), then scores T. The score threshold is the
-5th percentile of the training scores, so it is fixed before T is seen.
+from earlier years, starting in 2019 (2017-2018 were dropped: an older system
+with different flag rates). It then scores T.
+
+The score cutoff is the 2nd percentile (FLAG_RATE = 0.02) of out-of-sample
+scores from leave-one-quarter-out over the training quarters. Each training
+quarter is scored by a model that never saw it, so the cutoff comes from past
+data and is fixed before T is seen.
 
 Test plan (latest first):
-  2026 Q3  <- train 2017 Q3 .. 2025 Q3
-  2026 Q2  <- train 2017 Q2 .. 2025 Q2
-  2026 Q1  <- train 2017 Q1 .. 2025 Q1
-  2025 Q4  <- train 2017 Q4 .. 2024 Q4   (2026 Q4 not yet published)
-
-Sensitivity: the same models retrained without the 2017-2018 quarters, which
-came from a smaller system with different columns.
+  2026 Q3  <- train 2019 Q3 .. 2025 Q3
+  2026 Q2  <- train 2019 Q2 .. 2025 Q2
+  2026 Q1  <- train 2019 Q1 .. 2025 Q1
+  2025 Q4  <- train 2019 Q4 .. 2024 Q4   (2026 Q4 not yet published)
 
 Limitation: `is_electric` is dropped. bike_type is missing before late 2018, so
 it cannot be used consistently across all training years.
@@ -39,7 +41,7 @@ FEATURES = ["duration_min", "distance_km", "start_hour", "is_weekend",
 FLAG_RATE = 0.02
 TEST_QUARTERS = [(2026, 3), (2026, 2), (2026, 1), (2025, 4)]
 FIRST_YEAR = 2019  # 2017-2018 dropped: smaller early system, different flag rates
-PRE_2019_CUTOFF = 2019  # sensitivity run drops training quarters before this year
+
 
 
 def haversine_km(lat1, lon1, lat2, lon2):

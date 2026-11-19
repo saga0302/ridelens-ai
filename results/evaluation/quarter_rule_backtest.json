@@ -1,0 +1,114 @@
+{
+  "rule": "fire if share > max of earlier same-quarter out-of-sample shares",
+  "min_train_quarters": 2,
+  "min_refs": 2,
+  "rows": [
+    {
+      "quarter": "2023-Q1",
+      "share": 0.01852,
+      "earlier_max": 0.05458,
+      "earlier_quarters": 2,
+      "fired": false
+    },
+    {
+      "quarter": "2023-Q2",
+      "share": 0.01421,
+      "earlier_max": 0.01711,
+      "earlier_quarters": 2,
+      "fired": false
+    },
+    {
+      "quarter": "2023-Q3",
+      "share": 0.01672,
+      "earlier_max": 0.02462,
+      "earlier_quarters": 2,
+      "fired": false
+    },
+    {
+      "quarter": "2023-Q4",
+      "share": 0.01437,
+      "earlier_max": 0.02704,
+      "earlier_quarters": 2,
+      "fired": false
+    },
+    {
+      "quarter": "2024-Q1",
+      "share": 0.01534,
+      "earlier_max": 0.05458,
+      "earlier_quarters": 3,
+      "fired": false
+    },
+    {
+      "quarter": "2024-Q2",
+      "share": 0.01491,
+      "earlier_max": 0.01711,
+      "earlier_quarters": 3,
+      "fired": false
+    },
+    {
+      "quarter": "2024-Q3",
+      "share": 0.01929,
+      "earlier_max": 0.02462,
+      "earlier_quarters": 3,
+      "fired": false
+    },
+    {
+      "quarter": "2024-Q4",
+      "share": 0.01783,
+      "earlier_max": 0.02704,
+      "earlier_quarters": 3,
+      "fired": false
+    },
+    {
+      "quarter": "2025-Q1",
+      "share": 0.01939,
+      "earlier_max": 0.05458,
+      "earlier_quarters": 4,
+      "fired": false
+    },
+    {
+      "quarter": "2025-Q2",
+      "share": 0.01907,
+      "earlier_max": 0.01711,
+      "earlier_quarters": 4,
+      "fired": true
+    },
+    {
+      "quarter": "2025-Q3",
+      "share": 0.01956,
+      "earlier_max": 0.02462,
+      "earlier_quarters": 4,
+      "fired": false
+    },
+    {
+      "quarter": "2025-Q4",
+      "share": 0.02166,
+      "earlier_max": 0.02704,
+      "earlier_quarters": 4,
+      "fired": false
+    },
+    {
+      "quarter": "2026-Q1",
+      "share": 0.02577,
+      "earlier_max": 0.05458,
+      "earlier_quarters": 5,
+      "fired": false
+    },
+    {
+      "quarter": "2026-Q2",
+      "share": 0.02129,
+      "earlier_max": 0.01907,
+      "earlier_quarters": 5,
+      "fired": true
+    },
+    {
+      "quarter": "2026-Q3",
+      "share": 0.02235,
+      "earlier_max": 0.02462,
+      "earlier_quarters": 5,
+      "fired": false
+    }
+  ],
+  "fired": 2,
+  "expected_by_chance": 3.6333333333333333
+}
