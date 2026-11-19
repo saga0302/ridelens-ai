@@ -34,7 +34,7 @@ N_FAULT = 2_000
 N_LOF_TRAIN = 50_000
 N_HOLDOUT = 20_000
 SEED = 42
-FLAG_RATE = 0.05
+FLAG_RATE = 0.02
 HBOS_BINS = 50
 
 COVERED = ["teleport_end_30km", "impossible_speed", "missing_end_coords",

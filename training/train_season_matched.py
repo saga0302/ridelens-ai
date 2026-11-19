@@ -36,7 +36,7 @@ from pipeline.normalize import load_quarter  # noqa: E402
 PASS_TYPES = ["Monthly Pass", "Walk-up", "One Day Pass", "Annual Pass", "Flex Pass"]
 FEATURES = ["duration_min", "distance_km", "start_hour", "is_weekend",
             "is_round_trip"] + [f"pass_{p}" for p in PASS_TYPES]
-FLAG_RATE = 0.05
+FLAG_RATE = 0.02
 TEST_QUARTERS = [(2026, 3), (2026, 2), (2026, 1), (2025, 4)]
 FIRST_YEAR = 2019  # 2017-2018 dropped: smaller early system, different flag rates
 PRE_2019_CUTOFF = 2019  # sensitivity run drops training quarters before this year
@@ -75,22 +75,32 @@ def discover():
     return cache
 
 
-def train_for(test_year, q, data, exclude_pre_2019=False):
-    train_keys = [(y, q) for y in range(FIRST_YEAR, test_year)
-                  if (y, q) in data and not (exclude_pre_2019 and y < PRE_2019_CUTOFF)]
-    train_df = pd.concat([data[k].assign(quarter=f"{k[0]}-Q{k[1]}") for k in train_keys],
-                         ignore_index=True)
-    X_train = features(train_df)
-    scaler = StandardScaler().fit(X_train)
+def fit_model(frames):
+    df = pd.concat(frames, ignore_index=True)
+    X = features(df)
+    scaler = StandardScaler().fit(X)
     model = IsolationForest(n_estimators=200, max_samples=256,
                             random_state=42, n_jobs=-1)
-    Xs = scaler.transform(X_train)
-    model.fit(Xs)
-    train_scores = model.score_samples(Xs)
-    threshold = float(np.quantile(train_scores, FLAG_RATE))
+    model.fit(scaler.transform(X))
+    return model, scaler
+
+
+def held_out_threshold(data, keys):
+    """Score each training quarter with a model that never saw it.
+    The cutoff is the FLAG_RATE quantile of those out-of-sample scores."""
+    pooled = []
+    for k in keys:
+        model, scaler = fit_model([data[j] for j in keys if j != k])
+        pooled.append(model.score_samples(scaler.transform(features(data[k]))))
+    return float(np.quantile(np.concatenate(pooled), FLAG_RATE))
+
+
+def train_for(test_year, q, data):
+    keys = [(y, q) for y in range(FIRST_YEAR, test_year) if (y, q) in data]
+    model, scaler = fit_model([data[k] for k in keys])
+    threshold = held_out_threshold(data, keys)
     return {"model": model, "scaler": scaler, "threshold": threshold,
-            "train_keys": [f"{y}-Q{qq}" for y, qq in train_keys],
-            "train_df": train_df, "X_train": X_train}
+            "train_keys": [f"{y}-Q{qq}" for y, qq in keys]}
 
 
 def flagged_share(bundle, df):
@@ -107,11 +117,7 @@ def main():
         bundle = train_for(ty, tq, data)
         share, n = flagged_share(bundle, test_df)
 
-        # sensitivity: same test, but without 2017-2018 training quarters
-        sens = train_for(ty, tq, data, exclude_pre_2019=True)
-        share_sens, _ = flagged_share(sens, test_df)
-
-        # how unusual is each past training quarter under this model?
+        # in-sample rates for the training quarters, for reference only
         past = {}
         for k in bundle["train_keys"]:
             y, qq = int(k[:4]), int(k[-1])
@@ -120,8 +126,8 @@ def main():
         row = {"test": f"{ty}-Q{tq}", "test_trips": n,
                "train_quarters": bundle["train_keys"],
                "flagged_share_test": round(share, 4),
-               "flagged_share_test_without_2017_2018": round(share_sens, 4),
-               "train_quarter_flagged_share": {k: round(v, 4) for k, v in past.items()},
+               "train_quarter_flagged_share_in_sample":
+                   {k: round(v, 4) for k, v in past.items()},
                "threshold": bundle["threshold"]}
         results.append(row)
         tag = f"season_q{tq}_for_{ty}Q{tq}"
@@ -132,11 +138,8 @@ def main():
 
         print(f"\nTEST {ty} Q{tq}  trained on {len(bundle['train_keys'])} same-season quarters"
               f" ({bundle['train_keys'][0]} .. {bundle['train_keys'][-1]})")
-        print(f"  flagged share (test)                 {share:.2%}  of {n:,} trips")
-        print(f"  flagged share, no 2017-2018 train    {share_sens:.2%}")
-        print("  past training quarters under this model:")
-        for k, v in past.items():
-            print(f"     {k}  {v:.2%}")
+        print(f"  cutoff score {bundle['threshold']:.4f} (2nd percentile of held-out scores)")
+        print(f"  flagged share (test)  {share:.2%}  of {n:,} trips")
 
     meta = {"trained_at": datetime.now(timezone.utc).isoformat(),
             "sklearn": sklearn.__version__, "features": FEATURES,
@@ -149,3 +152,4 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
