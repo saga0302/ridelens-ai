@@ -1,11 +1,14 @@
 # RideLens AI: LA Metro bike-share quarterly change tracker
 
 When a new quarterly trip file is published, this project checks it, compares it
-with the same quarter in earlier years, and flags changes that look real.
+with the same quarter in earlier years, and explains what changed. It's built for
+people who use the data in their own projects: they get a dashboard, and a chatbot
+explains what it shows.
 
-Status: **work in progress.** Data checks and the season-matched model are built and
-tested. Still to build: the same-quarter comparison module, the LangGraph agent, RAG,
-MCP tools, the Streamlit dashboard and the Airflow schedule.
+Status: **work in progress.** Data checks, the season-matched model, the fault
+comparison and the same-quarter report are built and tested. Still to build: the
+quarter-level alert rule, station-level views, the dashboard, the LangGraph agent,
+RAG, MCP tools and the Airflow schedule.
 
 ## Layout
 
@@ -13,10 +16,12 @@ MCP tools, the Streamlit dashboard and the Airflow schedule.
 data/          raw CSVs (not in git) and manifest.json (gate results per quarter)
 pipeline/      clean and check the data: normalize.py, quality_gate.py, run_gate_all.py
 training/      season-matched Isolation Forest: train_season_matched.py
-evaluation/    fault-injection tests and the quarter-level check
+evaluation/    fault comparison and quarter-level check
+comparison/    same-quarter comparison and the per-quarter report
 models/        trained model files (.joblib), one per test quarter
-results/       every evaluation result as .json
-tests/         gate tests (11)
+results/       training/ (season-matched model), evaluation/ (fault comparison,
+               quarter-level check), reports/ (one report per quarter)
+tests/         19 tests: gate (11), same-quarter comparison (5), report (3)
 ```
 
 ## How the cutoff is set
@@ -33,6 +38,36 @@ comes from past data, not from a value chosen up front:
 - Check on the four test quarters: flag rates were 2.1–2.6% against a 2% target.
   An earlier 5% cutoff gave 5.0–5.9%.
 
+## Same-quarter comparison
+
+Each quarter's summary numbers are compared with the same quarter in every past year
+from 2019 on: median trip length and distance, mean start hour, trip count, weekend
+and round-trip shares, and pass-type shares.
+
+- Each metric has a range from the past years, and a cutoff from leave-one-year-out
+  gaps. Both are shown as information.
+- These numbers do not raise alerts. They describe where the quarter sits against
+  past years.
+
+## Alerts (decided so far)
+
+- **Data alerts:** a quarter that fails the data gate is not analysed. The report
+  shows which checks failed.
+- **Pattern information:** same-quarter numbers are shown with the past range.
+  No alert is attached.
+- **Trip examples:** flagged trips are listed, the most unusual first. A flagged trip
+  is not an alarm on its own, since many will turn out to be data errors.
+- **Quarter-level rule:** not decided yet. Options are a past-range rule tested on
+  past quarters first, or report only until real uploads are checked.
+
+## Who it's for and what it covers
+
+- Built for people using the data in their own projects: a dashboard, with a chatbot
+  that explains it.
+- Station data is in scope. Weather is out of scope for now.
+- The app describes patterns and possible causes. It does not label an area as
+  unsafe, since trip data cannot show that.
+
 ## Key results so far
 
 - **Season-matched model:** trained on 2019 onward, with the 2% held-out cutoff.
@@ -47,6 +82,8 @@ comes from past data, not from a value chosen up front:
 - **Quarter-level hour check:** catches a 6-hour time shift once it touches about 20%
   of trips, and misses shifts of 5% or less. Clean files stay under the threshold in all
   four test quarters.
+- **2026 Q3 report:** 2.23% of trips flagged against the 2% expectation. No same-quarter
+  metric is outside its cutoff.
 - **Open issue:** the trip-level rules flag 3.0–4.8% of clean trips. Most of this comes
   from missing end coordinates, which the gate allows up to 5%. Decide whether missing
   coordinates should be a trip flag or a data-quality warning.
@@ -79,12 +116,15 @@ pip install -r requirements.txt
 Run everything from the project root.
 
 ```bash
-python -m pytest -q tests                        # gate tests (11)
+python -m pytest -q tests                        # all tests (19)
 python pipeline/run_gate_all.py                  # gate every quarter, writes data/manifest.json
 python training/train_season_matched.py          # season-matched models
 python evaluation/eval_uncovered.py              # fault comparison: rules, IF, LOF, HBOS
 python evaluation/quarter_hour_check.py          # quarter-level hour-of-day check
 python evaluation/threshold_check.py             # cutoff study: z-score vs percentile
+python -m comparison.run_same_quarter 2026 3     # same-quarter table for one quarter
+python -m comparison.run_report 2026 3           # full report for one quarter, saved to results/reports/
 ```
 
-Results are written to `results/`. 
+## Design
+
