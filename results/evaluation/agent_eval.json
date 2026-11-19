@@ -1,0 +1,74 @@
+[
+  {
+    "question": "How many trips were flagged in 2026 Q3?",
+    "passed": true,
+    "failures": [],
+    "answer": "**2,304 trips** were flagged in 2026 Q3, out of 103,106 trips. That is a flagged share of 2.23%, compared with an expected share of 2% [2026-Q3 report]. The quarter passed all data checks [2026-Q3 report].\n\nThe facts don't say why the flagged share is above the expected share. Possible causes to check include changes in trip volume or pass mix, which stayed within past ranges this quarter [2026-Q3 report]."
+  },
+  {
+    "question": "What share of trips were flagged in 2026 Q3?",
+    "passed": true,
+    "failures": [],
+    "answer": "In 2026-Q3, **2.23%** of trips were flagged (2,304 of 103,106 trips). The expected share was 2%. [2026-Q3 report]\n\nThe quarter passed all data checks. [2026-Q3 report]"
+  },
+  {
+    "question": "Did the 2026 Q3 data pass its checks?",
+    "passed": true,
+    "failures": [],
+    "answer": "Yes. The 2026-Q3 data passed all data checks [2026-Q3 report].\n\nThe quarter had 103,106 trips, and 2,304 of them were flagged, which is 2.23% against an expected 2% [2026-Q3 report]. The flagged share is above the expected share, but the report states that all data checks passed. The report does not say why the flagged share was higher than expected, so that cause is not available.\n\nEvery same-quarter comparison (duration, distance, start hour, trip count, weekend and round-trip shares, and pass-type shares) fell within its past range [2026-Q3 report]."
+  },
+  {
+    "question": "What is the median trip duration in 2026 Q3?",
+    "passed": true,
+    "failures": [],
+    "answer": "The median trip duration in 2026 Q3 was **16.00 minutes** [2026-Q3 report]. That matches the past same-quarter median of 16.00 minutes, and it falls within the past range of 12.00 to 19.00 minutes [2026-Q3 report]."
+  },
+  {
+    "question": "Were any 2026 Q3 measures outside their past range?",
+    "passed": true,
+    "failures": [],
+    "answer": "No. All eleven measures compared with the same quarter in past years were within their past range [2026-Q3 report]. These were median trip duration, median trip distance, mean start hour, trip count, weekend share, round-trip share, and the shares for Monthly Pass, Walk-up, One Day Pass, Annual Pass, and Flex Pass [2026-Q3 report]."
+  },
+  {
+    "question": "What is the expected share of flagged trips?",
+    "passed": true,
+    "failures": [],
+    "answer": "The expected share of flagged trips is 2%. The model flags this share of trips in normal conditions, by design. [glossary: Expected share]\n\nFor 2026-Q3, the actual flagged share was 2.23% (2,304 flagged out of 103,106 trips). [2026-Q3 report]"
+  },
+  {
+    "question": "What is a flagged trip?",
+    "passed": true,
+    "failures": [],
+    "answer": "A **flagged trip** is a trip the model scores as unusual. Its score falls below the **cutoff**, which is the score under which a trip is flagged [glossary: Flagged trip]. The cutoff is set at the 2nd percentile (2%) of out-of-sample scores from past quarters, before the new quarter is seen [glossary: Cutoff].\n\nA flag is a reason to look, not proof of a problem. Many flagged trips turn out to be data errors [glossary: Flagged trip].\n\nIn 2026-Q3, 2,304 of 103,106 trips were flagged, a flagged share of 2.23%, compared with an expected share of 2% [2026-Q3 report]. The flagged share is the flagged trips divided by all trips in the quarter [glossary: Flagged share]. The quarter passed all data checks [2026-Q3 report]."
+  },
+  {
+    "question": "What does false alarm mean?",
+    "passed": true,
+    "failures": [],
+    "answer": "A **false alarm** is an alert on a quarter that is actually normal. Because there are no labelled anomalies, any alert fired on a past quarter is counted as a *possible* false alarm [glossary: False alarm].\n\nRight now, RideLens does not send quarter-level alerts. Quarters are reported, not alerted, until real uploads show what normal looks like [glossary: Quarter-level alert]. In a test of one possible rule over 2023\u20132026, the rule fired on two of fifteen quarters. The early 2021 model was unreliable, so that result was not enough to choose a threshold [README: Alerts]."
+  },
+  {
+    "question": "Why is the cutoff 2%?",
+    "passed": true,
+    "failures": [],
+    "answer": "The 2% level is a choice, not a statistical result. It keeps the expected share of flagged trips low enough that a flag means something [README.md: Why 2%].\n\nThe team compared a few options:\n- A 5% cutoff flagged more than twice as many trips on the test quarters [README.md: Why 2%].\n- Z-score cutoffs flagged almost no trips, so they were dropped [README.md: How the cutoff is set].\n- 2% fell between those two [README.md: Why 2%].\n\nOn the four test quarters, flag rates were 2.1\u20132.6%, against a 2% target. The earlier 5% cutoff gave 5.0\u20135.9% [README.md: How the cutoff is set]. The team plans to check the 2% choice again once real uploads arrive [README.md: Why 2%].\n\nThe cutoff is the 2nd percentile of out-of-sample scores from past quarters, set before the new quarter is seen [glossary: Cutoff]."
+  },
+  {
+    "question": "What is a quarter-level alert?",
+    "passed": true,
+    "failures": [],
+    "answer": "A quarter-level alert is not in use. Quarters are reported, not alerted, until real uploads show what normal looks like [docs/glossary.md: Quarter-level alert].\n\nFor 2026-Q3, the report shows the flagged share, 2.23% (2,304 of 103,106 trips), next to the expected 2% [2026-Q3 report]. No alert is attached to this quarter [README.md: Alerts]. The data checks passed, so the quarter was analysed [2026-Q3 report].\n\nA rule that alerts when the flagged share is above the highest earlier share was tested on 2023\u20132026 and fired on two of fifteen quarters. The team judged that too little evidence to set a threshold, so the alert is deferred [README.md: Alerts]."
+  },
+  {
+    "question": "Which trip IDs were flagged in 2026 Q3?",
+    "passed": true,
+    "failures": [],
+    "answer": "The trip IDs for flagged trips are not available in the provided data.\n\nFor 2026-Q3, 2,304 of 103,106 trips were flagged, a flagged share of 2.23% against an expected share of 2% [2026-Q3 report]. The data checks passed [2026-Q3 report]."
+  },
+  {
+    "question": "Is the Downtown area unsafe?",
+    "passed": true,
+    "failures": [],
+    "answer": "I can't say whether Downtown is unsafe. RideLens doesn't label areas as unsafe, because trip data can't show that [README.md: Who it's for and what it covers].\n\nThe passages also don't include any Downtown-specific data. Station-level views are still to be built, so station or area breakdowns are not available yet [README.md: README.md]."
+  }
+]

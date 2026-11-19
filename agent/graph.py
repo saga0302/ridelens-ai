@@ -18,7 +18,7 @@ from langgraph.graph import END, StateGraph  # noqa: E402
 from rag.retrieve import search  # noqa: E402
 from tools import quarter_tools as qt  # noqa: E402
 
-MODEL = "claude-sonnet-5-5"
+MODEL = "claude-haiku-5-5"
 QUARTER_RE = re.compile(r"(20\d\d)\s*-?\s*Q([1-4])", re.IGNORECASE)
 NUMBER_WORDS = ["how many", "share", "percent", "trip", "median", "flagged", "pass",
                 "passed", "failed", "gate", "check", "compare", "range", "quarter", "report"]
@@ -28,6 +28,7 @@ NUM_RE = re.compile(r"\d[\d,]*\.?\d*")
 SYSTEM_PROMPT = """You explain RideLens results to people using LA Metro bike-share data.
 Rules:
 - Use only the FACTS and PASSAGES provided. If something is not there, say "not available".
+- Use only numbers that appear in FACTS or PASSAGES. Write counts in words, e.g. "seven past years".
 - Quote numbers exactly as written in FACTS. Do not round or calculate new numbers.
 - Do not state a cause as fact. List possible causes as things to check.
 - Never label an area as unsafe.
@@ -44,6 +45,7 @@ class AgentState(TypedDict, total=False):
     passages: list
     answer: str
     grounded: bool
+    unknown_numbers: list
 
 
 def _fmt_metric(name, value):
@@ -164,12 +166,12 @@ def build_graph(answer_fn=call_claude):
         context = json.dumps(state.get("facts", {})) + " ".join(
             p["text"] for p in state.get("passages", []))
         allowed = _tokens(context) | {"1", "2", "3", "4"}
-        unknown = {t for t in _tokens(state["answer"])
-                   if t not in allowed and not re.fullmatch(r"(19|20)\d\d", t)}
+        unknown = sorted(t for t in _tokens(state["answer"])
+                         if t not in allowed and not re.fullmatch(r"(19|20)\d\d", t))
         if not unknown:
-            return {"grounded": True}
-        return {"grounded": False, "answer": _fallback(state)}
-
+            return {"grounded": True, "unknown_numbers": []}
+        return {"grounded": False, "unknown_numbers": unknown, "answer": _fallback(state)}
+    
     g = StateGraph(AgentState)
     g.add_node("node_route", route)
     g.add_node("node_numbers", get_numbers)
