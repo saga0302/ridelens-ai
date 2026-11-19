@@ -145,9 +145,9 @@ def main():
             "sklearn": sklearn.__version__, "features": FEATURES,
             "flag_rate": FLAG_RATE, "n_estimators": 200, "max_samples": 256,
             "random_state": 42, "results": results}
-    with open("results/season_matched_results.json", "w") as f:
+    with open("results/training/season_matched_results.json", "w") as f:
         json.dump(meta, f, indent=2, default=str)
-    print("\nSaved results/season_matched_results.json")
+    print("\nSaved results/training/season_matched_results.json")
 
 
 if __name__ == "__main__":

@@ -83,10 +83,10 @@ def main():
             print(f"  {k:>4} of trips shifted -6h: distance {v['distance']:.4f}"
                   f"  flagged={v['flagged']}")
 
-    with open("results/quarter_hour_check_results.json", "w") as f:
+    with open("results/evaluation/quarter_hour_check_results.json", "w") as f:
         json.dump({"first_year": FIRST_YEAR, "shift_fractions": SHIFT_FRACTIONS,
                    "seed": SEED, "results": results}, f, indent=2)
-    print("\nSaved results/quarter_hour_check_results.json")
+    print("\nSaved results/evaluation/quarter_hour_check_results.json")
 
 
 if __name__ == "__main__":

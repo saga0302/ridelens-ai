@@ -140,11 +140,11 @@ def main():
                 f"{n}={row[f'recall__{n}__{fault}']:.1%}"
                 for n in ["rules", "isolation_forest", "lof", "hbos"]))
 
-    with open("results/uncovered_eval_results.json", "w") as f:
+    with open("results/evaluation/uncovered_eval_results.json", "w") as f:
         json.dump({"n_clean": N_CLEAN, "n_fault_per_type": N_FAULT, "seed": SEED,
                    "covered": COVERED, "uncovered": UNCOVERED, "results": rows},
                   f, indent=2)
-    print("\nSaved results/uncovered_eval_results.json")
+    print("\nSaved results/evaluation/uncovered_eval_results.json")
 
 
 if __name__ == "__main__":
