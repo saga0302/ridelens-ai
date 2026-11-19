@@ -13,8 +13,8 @@ from comparison.same_quarter import compare_quarter
 from training.train_season_matched import FLAG_RATE, features
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-EXAMPLE_COLUMNS = ["trip_id", "start_time", "duration", "passholder_type"]
-N_EXAMPLES = 20
+EXAMPLE_COLUMNS = ["start_time", "duration", "passholder_type"]
+N_EXAMPLES = 10
 
 
 def load_gate(year, q, manifest_path=os.path.join(ROOT, "data", "manifest.json")):
