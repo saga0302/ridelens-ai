@@ -5,3 +5,6 @@ joblib==1.6.0
 pytest
 mcp==1.30.0
 chromadb==1.5.9
+langgraph==1.2.23
+anthropic==2.11.0
+python-dotenv==1.2.4

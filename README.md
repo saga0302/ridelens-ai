@@ -38,6 +38,13 @@ comes from past data, not from a value chosen up front:
 - Check on the four test quarters: flag rates were 2.1–2.6% against a 2% target.
   An earlier 5% cutoff gave 5.0–5.9%.
 
+## Why 2%
+
+The 2% target is a choice, not a statistical result. It keeps the expected share of
+flagged trips low enough that a flag means something. The 5% cutoff flagged more than
+twice as many trips on the test quarters, and the z-score cutoffs flagged almost none.
+2% sat between the two. We'll check it again once real uploads arrive.
+
 ## Same-quarter comparison
 
 Each quarter's summary numbers are compared with the same quarter in every past year
