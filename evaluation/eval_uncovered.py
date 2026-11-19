@@ -1,7 +1,7 @@
 """Compare four detectors on faults the rule baseline does NOT check for.
 
 Detectors (each fit only on the same-season training quarters, threshold set
-at the 5th percentile of training scores, as in train_season_matched.py):
+at the 2nd percentile of training scores, FLAG_RATE = 0.02, as in train_season_matched.py):
   - rules          : plain checks (duration range, missing coords, speed > 60 km/h)
   - isolation_forest
   - lof            : Local Outlier Factor (novelty mode, 50k training sample)
