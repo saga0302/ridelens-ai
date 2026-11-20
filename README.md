@@ -1,143 +1,108 @@
-# RideLens AI: LA Metro bike-share quarterly change tracker
+# RideLens AI: LA Metro bike-share quarterly tracker
 
 ![CI](https://github.com/saga0302/ridelens-ai/actions/workflows/ci.yml/badge.svg)
 
-When a new quarterly trip file is published, this project checks it, compares it
-with the same quarter in earlier years, and explains what changed. It's built for
-people who use the data in their own projects: they get a dashboard, and a chatbot
-explains what it shows.
+When LA Metro publishes a new quarter of bike-share trips, RideLens checks the data, compares the quarter with the same quarter in earlier years, flags unusual trips, and explains the results in a dashboard with a chat assistant.
 
-Status: **work in progress.** Data checks, the season-matched model, the fault
-comparison and the same-quarter report are built and tested. Still to build: the
-quarter-level alert rule, station-level views, the dashboard, the LangGraph agent,
-RAG, MCP tools and the Airflow schedule.
+## What it does
 
-## Layout
+- Checks each quarterly file against 11 data-quality rules before anything else runs.
+- Compares each quarter only with the same season in earlier years, from 2019 onward, because trip patterns change with the season.
+- Flags about 2% of trips as unusual. The cutoff comes from past data, not from a fixed rule of thumb.
+- Shows same-quarter differences as information only. Trip-level flags are the only alerts.
+- Answers questions in plain English. Answers come from saved results, and every number is checked against them.
 
-```
-data/          raw CSVs (not in git) and manifest.json (gate results per quarter)
-pipeline/      clean and check the data: normalize.py, quality_gate.py, run_gate_all.py
-training/      season-matched Isolation Forest: train_season_matched.py
-evaluation/    fault comparison, quarter-level check and quarter-rule backtest
-comparison/    same-quarter comparison and the per-quarter report
-models/        trained model files (.joblib), one per test quarter
-results/       training/ (season-matched model), evaluation/ (fault comparison,
-               quarter-level check), reports/ (one report per quarter)
-tests/         19 tests: gate (11), same-quarter comparison (5), report (3)
-```
+## Results so far
+
+| Quarter | Trips | Flagged | Share | Data checks |
+|---|---|---|---|---|
+| 2026-Q1 | 88,932 | 2,292 | 2.58% | passed |
+| 2026-Q2 | 104,654 | 2,228 | 2.13% | passed |
+| 2026-Q3 | 103,106 | 2,304 | 2.23% | passed |
+
+The expected share is 2% by design. A quarter above 2% has more unusual trips than past quarters. That's a reason to look, not a finding.
 
 ## How the cutoff is set
 
-A trip is flagged when its Isolation Forest score falls below a cutoff. The cutoff
-comes from past data, not from a value chosen up front:
+For each past quarter, a model is trained on the other quarters from the same season and scores the quarter it didn't see. Pooling those scores gives a cutoff at the 2nd percentile, so about 2% of past trips fall below it. A z-score cutoff was tested and rejected, because on these scores it flagged almost nothing.
 
-- For each past quarter, train on the other same-season quarters from 2019 onward,
-  then score the held-out quarter. This gives out-of-sample scores for every quarter.
-- The cutoff is the 2nd percentile (2%) of those pooled out-of-sample scores.
-- A z-score cutoff (for example, −3 standard deviations, or the robust version using
-  the median and MAD) was tested first. On these skewed scores it flagged almost no
-  trips, so it was dropped.
-- Check on the four test quarters: flag rates were 2.1–2.6% against a 2% target.
-  An earlier 5% cutoff gave 5.0–5.9%.
+## Testing the method
 
-## Why 2%
+- **Planted faults.** We added known problems to test data (slow trips, time shifts, inflated durations) and checked which methods catch them. The rules catch most of the faults they were written for. Isolation Forest catches the slow-trip fault (about 98%), but only 9 to 17% of the time shift and duration inflation. No per-trip method catches a whole-quarter time shift. Planted faults are used for testing only, never for training.
+- **Quarter-level alert.** A backtest of the rule "alert when a quarter is above every earlier quarter" fired in 2 of 15 quarters, where chance alone predicts 3.6. That's why quarter-level alerts are report-only.
 
-The 2% target is a choice, not a statistical result. It keeps the expected share of
-flagged trips low enough that a flag means something. The 5% cutoff flagged more than
-twice as many trips on the test quarters, and the z-score cutoffs flagged almost none.
-2% sat between the two. We'll check it again once real uploads arrive.
+## Dashboard
 
-## Same-quarter comparison
+Overview, Compare, Trips, Trend, Methods, Ask, About and Upload.
 
-Each quarter's summary numbers are compared with the same quarter in every past year
-from 2019 on: median trip length and distance, mean start hour, trip count, weekend
-and round-trip shares, and pass-type shares.
+## The chat
 
-- Each metric has a range from the past years, and a cutoff from leave-one-year-out
-  gaps. Both are shown as information.
-- These numbers do not raise alerts. They describe where the quarter sits against
-  past years.
+The Ask tab is protected by a passcode and allows 10 questions per session. The assistant answers from the saved results and the project documentation. It won't say whether an area is safe, and it won't say why a particular trip happened.
 
-## Alerts
+## Limits
 
-- **Data alerts:** a quarter that fails the data gate is not analysed. The report
-  shows which checks failed.
-- **Pattern information:** same-quarter numbers are shown with the past range.
-  No alert is attached.
-- **Trip examples:** flagged trips are listed, the most unusual first. A flagged trip
-  is not an alarm on its own, since many will turn out to be data errors.
-- **Quarter-level alert:** none for now. The report shows the flagged share next to
-  the 2% expectation. A backtest of a "above the highest earlier share" rule over
-  2023–2026 fired on 2 of 15 quarters, but the early 2021 model was unreliable and
-  set the bar too high. That's not enough evidence to pick a threshold, so it's
-  deferred until real uploads show what normal looks like.
+- Not affiliated with LA Metro. It uses LA Metro's public trip files.
+- A flagged trip is unusual, not proven wrong. Many are likely data errors or rare trips.
+- The planted faults are our own design. There are no labelled real anomalies to test against yet.
+- Trip-level data only. No rider information, and no judgement of any area's safety.
+- Uploads are accepted for 2026 Q3 onward, and only for complete quarters.
 
-## Who it's for and what it covers
+## Layout
 
-- Built for people using the data in their own projects: a dashboard, with a chatbot
-  that explains it.
-- Station data is in scope. Weather is out of scope for now.
-- The app describes patterns and possible causes. It does not label an area as
-  unsafe, since trip data cannot show that.
-
-## Key results so far
-
-- **Season-matched model:** trained on 2019 onward, with the 2% held-out cutoff.
-  Flag rates on the four test quarters are 2.1–2.6%.
-- **Clean data:** at the 2% cutoff, Isolation Forest flags 2.1–2.5% of clean trips.
-- **Faults the rules catch:** the rules catch 81–100% of the faults they cover.
-  Isolation Forest catches 64–86% of the out-of-range durations but only 1–30% of the
-  other covered faults.
-- **Faults the rules miss:** Isolation Forest catches the slow, far trip (95–97%). No
-  method catches more than 8.5% of the 5× duration inflation or more than 6.4% of the
-  6-hour time shift, except LOF on the 5× inflation (up to 24%).
-- **Quarter-level hour check:** catches a 6-hour time shift once it touches about 20%
-  of trips, and misses shifts of 5% or less. Clean files stay under the threshold in all
-  four test quarters.
-- **2026 Q3 report:** 2.23% of trips flagged against the 2% expectation. No same-quarter
-  metric is outside its cutoff.
-- **Open issue:** the trip-level rules flag 3.0–4.8% of clean trips. Most of this comes
-  from missing end coordinates, which the gate allows up to 5%. Decide whether missing
-  coordinates should be a trip flag or a data-quality warning.
-
-These faults are chosen by us, so the numbers show how each method handles the faults
-we planted, not how often real anomalies are missed. There are no labelled real
-anomalies yet.
-
-## Data
-
-Raw trip files are **not in this repo** (about 430 MB for 2019 onward). Put each
-quarter's trip CSV in `data/raw/<YYYY>-Q<q>/`, for example
-`data/raw/2026-Q3/metro-trips-2026-q3.csv`.
-
-Training uses 2019 Q1 to 2026 Q3, which is 31 quarters. Earlier quarters were removed
-because the 2017–2018 data is from an older system and was not used.
+- `data/`: raw CSVs (not in git) and `manifest.json` with the quality results per quarter
+- `pipeline/`: loading, normalising and checking the data
+- `training/`: the season-matched Isolation Forest
+- `evaluation/`: planted-fault comparison, quarter-level check and backtest, agent tests
+- `comparison/`: same-quarter comparison and the per-quarter report
+- `models/`: saved models, one per quarter
+- `results/`: saved training, evaluation and report outputs
+- `rag/`: the document index for the assistant
+- `agent/`: the question-answering agent
+- `tools/`: read-only functions over the saved results
+- `mcp_server/`: the same tools exposed over MCP
+- `dashboard/`: charts and styling for the Streamlit app
+- `docs/`: the glossary
+- `tests/`: the test suite
+- `app.py`: the dashboard
 
 ## Setup
 
-Use Python 3.12 or newer.
+Use Python 3.12.
 
-```bash
+```
 python3.12 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Run
+Download the LA Metro trip files and place each in `data/raw/YYYY-QN/`, for example `data/raw/2026-Q3/`.
 
-Run everything from the project root.
+Create a `.env` file in the project root:
 
-```bash
-python -m pytest -q tests                        # all tests (19)
-python pipeline/run_gate_all.py                  # gate every quarter, writes data/manifest.json
-python training/train_season_matched.py          # season-matched models
-python evaluation/eval_uncovered.py              # fault comparison: rules, IF, LOF, HBOS
-python evaluation/quarter_hour_check.py          # quarter-level hour-of-day check
-python evaluation/threshold_check.py             # cutoff study: z-score vs percentile
-python -m comparison.run_same_quarter 2026 3     # same-quarter table for one quarter
-python -m comparison.run_report 2026 3           # full report for one quarter, saved to results/reports/
-python evaluation/backtest_quarter_rule.py       # backtest of the quarter-level rule (several minutes)
+```
+ANTHROPIC_API_KEY=your-key
+APP_PASSCODE=your-passcode
+CONTACT_EMAIL=your-address
 ```
 
-## Design
+## Run
 
+```
+python pipeline/run_gate_all.py           # quality checks for all quarters
+python training/train_season_matched.py   # train the models
+python -m comparison.run_report 2026 3    # build one quarter's report
+streamlit run app.py                      # open the dashboard
+```
+
+## Tests
+
+```
+python -m pytest -q                       # 47 tests
+python -m evaluation.eval_agent           # 13 assistant cases (uses the API)
+```
+
+## Next
+
+- Feedback on flagged trips, stored outside the app
+- Station-level views
+- Architecture diagram
