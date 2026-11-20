@@ -11,6 +11,13 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, ROOT)
 load_dotenv(os.path.join(ROOT, ".env"))
 
+try:
+    for key in ["ANTHROPIC_API_KEY", "APP_PASSCODE", "CONTACT_EMAIL"]:
+        if key in st.secrets:
+            os.environ[key] = st.secrets[key]
+except Exception:
+    pass  
+
 from dashboard.charts import gauge, heatmap, range_chart, trend  # noqa: E402
 from dashboard.theme import apply, header, kpi, kpi_grid, trip_cards  # noqa: E402
 from rag.build_index import INDEX_DIR, build  # noqa: E402
