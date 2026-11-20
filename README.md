@@ -1,5 +1,7 @@
 # RideLens AI: LA Metro bike-share quarterly change tracker
 
+![CI](https://github.com/saga0302/ridelens-ai/actions/workflows/ci.yml/badge.svg)
+
 When a new quarterly trip file is published, this project checks it, compares it
 with the same quarter in earlier years, and explains what changed. It's built for
 people who use the data in their own projects: they get a dashboard, and a chatbot
