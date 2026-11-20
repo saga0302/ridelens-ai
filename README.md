@@ -1,18 +1,56 @@
----
-title: RideLens AI
-emoji: 🚲
-colorFrom: blue
-colorTo: purple
-sdk: streamlit
-app_file: app.py
-pinned: false
----
-
 # RideLens AI: LA Metro bike-share quarterly tracker
 
 ![CI](https://github.com/saga0302/ridelens-ai/actions/workflows/ci.yml/badge.svg)
 
+**Live app:** https://ridelens-ai-5obhdki3aukh3koxypmjdy.streamlit.app
+
 When LA Metro publishes a new quarter of bike-share trips, RideLens checks the data, compares the quarter with the same quarter in earlier years, flags unusual trips, and explains the results in a dashboard with a chat assistant.
+
+## Screenshots
+
+![Overview](docs/screenshots/Overview.png)
+![Compare](docs/screenshots/Compare.png)
+![Ask](docs/screenshots/Ask.png)
+![Upload](docs/screenshots/Upload.png)
+
+## How it works
+
+```mermaid
+flowchart LR
+    classDef src fill:#070712,stroke:#00f0ff,stroke-width:2px,color:#e8e8ff
+    classDef proc fill:#070712,stroke:#ff2bd6,stroke-width:2px,color:#e8e8ff
+    classDef store fill:#070712,stroke:#b6ff3b,stroke-width:2px,color:#e8e8ff
+    classDef ai fill:#070712,stroke:#ff2bd6,stroke-width:3px,color:#b6ff3b
+    classDef ui fill:#070712,stroke:#00f0ff,stroke-width:3px,color:#00f0ff
+
+    M["LA Metro quarterly trip CSVs<br/>2019 Q1 to 2026 Q3"]:::src
+    G["Quality gate<br/>11 checks"]:::proc
+    S[("Per-quarter summaries<br/>and checksums")]:::store
+    T["Season-matched Isolation Forest<br/>2% cutoff from past data"]:::proc
+    MD[("Saved models<br/>one per quarter")]:::store
+    C["Same-quarter comparison<br/>information only"]:::proc
+    R[("Saved reports<br/>JSON per quarter")]:::store
+    E["Evaluation<br/>planted faults and backtest"]:::proc
+    TOOLS["Read-only tools<br/>and MCP server"]:::proc
+    RAG[("RAG index<br/>ChromaDB")]:::store
+    AG["LangGraph agent<br/>keyword routing"]:::ai
+    CL["Claude<br/>writes the answer"]:::ai
+    GC["Grounding check<br/>numbers vs results"]:::ai
+    APP["Streamlit dashboard<br/>7 tabs"]:::ui
+    UP["Upload<br/>2026 Q3 onward"]:::ui
+
+    M --> G --> S
+    S --> T --> MD
+    S --> C --> R
+    M -.-> E
+    R --> TOOLS --> AG
+    RAG --> AG --> CL --> GC --> APP
+    R --> APP
+    MD --> APP
+    UP --> G
+    UP --> MD
+    APP --> AG
+```
 
 ## What it does
 
@@ -59,8 +97,8 @@ The Ask tab is protected by a passcode and allows 10 questions per session. The 
 
 ## Layout
 
-- `data/`: raw CSVs (not in git) and `manifest.json` with the quality results per quarter
-- `pipeline/`: loading, normalising and checking the data
+- `data/`: trip files (not in git, except small summaries) and `manifest.json` with the quality results per quarter
+- `pipeline/`: loading, normalising, checking and summarising the data
 - `training/`: the season-matched Isolation Forest
 - `evaluation/`: planted-fault comparison, quarter-level check and backtest, agent tests
 - `comparison/`: same-quarter comparison and the per-quarter report
@@ -71,7 +109,7 @@ The Ask tab is protected by a passcode and allows 10 questions per session. The 
 - `tools/`: read-only functions over the saved results
 - `mcp_server/`: the same tools exposed over MCP
 - `dashboard/`: charts and styling for the Streamlit app
-- `docs/`: the glossary
+- `docs/`: the glossary and dashboard screenshots
 - `tests/`: the test suite
 - `app.py`: the dashboard
 
@@ -85,7 +123,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Download the LA Metro trip files and place each in `data/raw/YYYY-QN/`, for example `data/raw/2026-Q3/`.
+The live app doesn't need the raw trip files. To rebuild everything from scratch, download the LA Metro trip files and place each in `data/raw/YYYY-QN/`, for example `data/raw/2026-Q3/`.
 
 Create a `.env` file in the project root:
 
@@ -100,6 +138,7 @@ CONTACT_EMAIL=your-address
 ```
 python pipeline/run_gate_all.py           # quality checks for all quarters
 python training/train_season_matched.py   # train the models
+python -m pipeline.build_summaries        # save per-quarter summaries
 python -m comparison.run_report 2026 3    # build one quarter's report
 streamlit run app.py                      # open the dashboard
 ```
@@ -115,4 +154,4 @@ python -m evaluation.eval_agent           # 13 assistant cases (uses the API)
 
 - Feedback on flagged trips, stored outside the app
 - Station-level views
-- Architecture diagram
+- Automatic quarterly updates
