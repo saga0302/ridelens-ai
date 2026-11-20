@@ -12,7 +12,7 @@ RESULTS = os.path.join(ROOT, "results")
 MANIFEST = os.path.join(ROOT, "data", "manifest.json")
 QUARTER_RE = re.compile(r"^(\d{4})-Q([1-4])$")
 MAX_EXAMPLES = 10
-EXAMPLE_FIELDS = ("start_time", "duration", "passholder_type")  # never trip IDs
+EXAMPLE_FIELDS = ("start_time", "duration", "passholder_type", "reasons")  # never trip IDs
 
 
 def _parse_quarter(quarter):

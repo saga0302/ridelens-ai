@@ -30,10 +30,11 @@ Rules:
 - Use only the FACTS and PASSAGES provided. If something is not there, say "not available".
 - Use only numbers that appear in FACTS or PASSAGES. Write counts in words, e.g. "seven past years".
 - Quote numbers exactly as written in FACTS. Do not round or calculate new numbers.
-- Do not state a cause as fact. List possible causes as things to check.
-- Never label an area as unsafe.
+- Say "unusual compared with past years", not "wrong", unless data_checks says failed.
+- When asked what could be behind something, list possible causes as guesses labelled "possible, not confirmed", and name the check that would confirm or rule out each one.
+- Never state a cause as fact. Never label an area as unsafe.
 - Do not mention trip IDs; they are not provided.
-- Cite sources in brackets, e.g. [2026-Q3 report] or [glossary: Cutoff].
+- Cite numbers to that quarter's report, e.g. [2026-Q2 report]. Cite definitions to the glossary or README, e.g. [glossary: Cutoff]. Never cite a report for a definition, or the glossary for a number.
 - Keep the answer short and plain."""
 
 
@@ -72,6 +73,10 @@ def route(state):
     return {"need_numbers": need_numbers, "need_docs": need_docs}
 
 
+WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
+         "nine", "ten", "eleven", "twelve"]
+
+
 def get_numbers(state):
     quarter = _quarter_from(state["question"])
     if quarter is None:
@@ -98,6 +103,8 @@ def get_numbers(state):
             f"{_fmt_metric(m['metric'], m['past_max'])}, {where} past range"
         )
 
+    outside = [m["metric"] for m in same["metrics"] if m["outside_past_range"]]
+    n = len(same["metrics"])
     facts = {
         "quarter": quarter,
         "trips": f"{summary['trips']:,}",
@@ -105,6 +112,8 @@ def get_numbers(state):
         "flagged_share": f"{summary['flagged_share']:.2%}",
         "expected_share": f"{summary['expected_share']:.0%}",
         "data_checks": checks,
+        "measures_compared": WORDS[n] if n < len(WORDS) else str(n),
+        "measures_outside_past_range": ", ".join(outside) if outside else "none",
         "same_quarter": rows,
     }
     return {"facts": facts}
@@ -132,8 +141,10 @@ def _text_of(content_blocks):
 def call_claude(system, user):
     import anthropic  # reads ANTHROPIC_API_KEY from the environment
     client = anthropic.Anthropic()
-    resp = client.messages.create(model=MODEL, max_tokens=1000, system=system,
+    resp = client.messages.create(model=MODEL, max_tokens=4000, system=system,
                                   messages=[{"role": "user", "content": user}])
+    if resp.stop_reason == "max_tokens":
+        print("warning: answer was cut off by the token limit")
     return _text_of(resp.content)
 
 

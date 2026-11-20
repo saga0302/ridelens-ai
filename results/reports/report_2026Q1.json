@@ -1,0 +1,176 @@
+{
+  "quarter": "2026-Q1",
+  "data_quality": {
+    "gate_passed": true,
+    "gate_failures": []
+  },
+  "trip_level": {
+    "trips": 88932,
+    "flagged": 2292,
+    "flagged_share": 0.02577250033733639,
+    "expected_share": 0.02,
+    "examples": [
+      {
+        "start_time": "03/15/2026 00:36",
+        "duration": "1440",
+        "passholder_type": "Annual Pass",
+        "reasons": "trip length 1440 min (typical 14)"
+      },
+      {
+        "start_time": "02/05/2026 23:21",
+        "duration": "1263",
+        "passholder_type": "One Day Pass",
+        "reasons": "trip length 1263 min (typical 14); distance 9.4 km (typical 0.9)"
+      },
+      {
+        "start_time": "03/29/2026 02:36",
+        "duration": "1008",
+        "passholder_type": "One Day Pass",
+        "reasons": "trip length 1008 min (typical 14); distance 7.7 km (typical 0.9)"
+      },
+      {
+        "start_time": "03/29/2026 02:39",
+        "duration": "1007",
+        "passholder_type": "One Day Pass",
+        "reasons": "trip length 1007 min (typical 14); distance 7.7 km (typical 0.9)"
+      },
+      {
+        "start_time": "01/18/2026 13:34",
+        "duration": "1440",
+        "passholder_type": "One Day Pass",
+        "reasons": "trip length 1440 min (typical 14); distance 9.1 km (typical 0.9)"
+      },
+      {
+        "start_time": "03/07/2026 13:58",
+        "duration": "1110",
+        "passholder_type": "One Day Pass",
+        "reasons": "trip length 1110 min (typical 14); distance 19.6 km (typical 0.9)"
+      },
+      {
+        "start_time": "03/07/2026 15:33",
+        "duration": "1001",
+        "passholder_type": "One Day Pass",
+        "reasons": "trip length 1001 min (typical 14); distance 17.4 km (typical 0.9)"
+      },
+      {
+        "start_time": "02/24/2026 21:16",
+        "duration": "1388",
+        "passholder_type": "One Day Pass",
+        "reasons": "trip length 1388 min (typical 14); distance 7.3 km (typical 0.9)"
+      },
+      {
+        "start_time": "03/08/2026 00:15",
+        "duration": "444",
+        "passholder_type": "Walk-up",
+        "reasons": "trip length 444 min (typical 14); distance 18.4 km (typical 0.9)"
+      },
+      {
+        "start_time": "01/18/2026 13:37",
+        "duration": "1440",
+        "passholder_type": "One Day Pass",
+        "reasons": "trip length 1440 min (typical 14); distance 7.8 km (typical 0.9)"
+      }
+    ]
+  },
+  "same_quarter": [
+    {
+      "metric": "median_duration_min",
+      "new": 14.0,
+      "past_median": 14.0,
+      "past_min": 11.0,
+      "past_max": 20.0,
+      "outside_past_range": false,
+      "beyond_loo_cutoff": false
+    },
+    {
+      "metric": "median_distance_km",
+      "new": 0.8999537374350081,
+      "past_median": 0.9187906986470422,
+      "past_min": 0.8491088780095302,
+      "past_max": 1.0109063212724245,
+      "outside_past_range": false,
+      "beyond_loo_cutoff": false
+    },
+    {
+      "metric": "mean_start_hour",
+      "new": 14.152341114559439,
+      "past_median": 14.241951290712707,
+      "past_min": 13.922262716445498,
+      "past_max": 14.337371415913276,
+      "outside_past_range": false,
+      "beyond_loo_cutoff": false
+    },
+    {
+      "metric": "trips",
+      "new": 88932.0,
+      "past_median": 72229.0,
+      "past_min": 40858.0,
+      "past_max": 119849.0,
+      "outside_past_range": false,
+      "beyond_loo_cutoff": false
+    },
+    {
+      "metric": "share_is_weekend",
+      "new": 0.3064701119956821,
+      "past_median": 0.2998933946198895,
+      "past_min": 0.23685761047463175,
+      "past_max": 0.36923001615350726,
+      "outside_past_range": false,
+      "beyond_loo_cutoff": false
+    },
+    {
+      "metric": "share_is_round_trip",
+      "new": 0.19254036792155804,
+      "past_median": 0.16391459252893223,
+      "past_min": 0.12155810147299509,
+      "past_max": 0.26362034362915465,
+      "outside_past_range": false,
+      "beyond_loo_cutoff": false
+    },
+    {
+      "metric": "share_pass_Monthly Pass",
+      "new": 0.607115548958755,
+      "past_median": 0.61516842265572,
+      "past_min": 0.48712614420676487,
+      "past_max": 0.6750900163666121,
+      "outside_past_range": false,
+      "beyond_loo_cutoff": false
+    },
+    {
+      "metric": "share_pass_Walk-up",
+      "new": 0.20248054693473666,
+      "past_median": 0.19598776114856914,
+      "past_min": 0.14299181669394434,
+      "past_max": 0.37304479746107033,
+      "outside_past_range": false,
+      "beyond_loo_cutoff": false
+    },
+    {
+      "metric": "share_pass_One Day Pass",
+      "new": 0.08508748257095308,
+      "past_median": 0.06794382931855919,
+      "past_min": 0.0476223690864387,
+      "past_max": 0.1239414557736551,
+      "outside_past_range": false,
+      "beyond_loo_cutoff": false
+    },
+    {
+      "metric": "share_pass_Annual Pass",
+      "new": 0.10531642153555526,
+      "past_median": 0.10089362447746748,
+      "past_min": 0.06659459082428026,
+      "past_max": 0.12587888707037642,
+      "outside_past_range": false,
+      "beyond_loo_cutoff": false
+    },
+    {
+      "metric": "share_pass_Flex Pass",
+      "new": 0.0,
+      "past_median": 0.0,
+      "past_min": 0.0,
+      "past_max": 0.003836294836695904,
+      "outside_past_range": false,
+      "beyond_loo_cutoff": false
+    }
+  ]
+}
