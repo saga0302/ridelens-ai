@@ -6,13 +6,6 @@
 
 When LA Metro publishes a new quarter of bike-share trips, RideLens checks the data, compares the quarter with the same quarter in earlier years, flags unusual trips, and explains the results in a dashboard with a chat assistant.
 
-## Screenshots
-
-![Overview](docs/screenshots/Overview.png)
-![Compare](docs/screenshots/Compare.png)
-![Ask](docs/screenshots/Ask.png)
-![Upload](docs/screenshots/Upload.png)
-
 ## How it works
 
 ```mermaid
@@ -83,9 +76,17 @@ For each past quarter, a model is trained on the other quarters from the same se
 
 Overview, Compare, Trips, Trend, Methods, Ask, About and Upload.
 
+![Overview](docs/screenshots/Overview.png)
+
+![Compare](docs/screenshots/Compare.png)
+
+![Upload](docs/screenshots/Upload.png)
+
 ## The chat
 
 The Ask tab is protected by a passcode and allows 10 questions per session. The assistant answers from the saved results and the project documentation. It won't say whether an area is safe, and it won't say why a particular trip happened.
+
+![Ask](docs/screenshots/Ask.png)
 
 ## Limits
 
@@ -155,3 +156,8 @@ python -m evaluation.eval_agent           # 13 assistant cases (uses the API)
 - Feedback on flagged trips, stored outside the app
 - Station-level views
 - Automatic quarterly updates
+
+## Author
+
+Built by Sagarika Raju. GitHub: [saga0302](https://github.com/saga0302)
+
