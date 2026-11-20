@@ -1,3 +1,13 @@
+---
+title: RideLens AI
+emoji: 🚲
+colorFrom: blue
+colorTo: purple
+sdk: streamlit
+app_file: app.py
+pinned: false
+---
+
 # RideLens AI: LA Metro bike-share quarterly tracker
 
 ![CI](https://github.com/saga0302/ridelens-ai/actions/workflows/ci.yml/badge.svg)

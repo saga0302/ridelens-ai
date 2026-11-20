@@ -17,7 +17,7 @@ from rag.build_index import INDEX_DIR, build  # noqa: E402
 from tools import quarter_tools as qt  # noqa: E402
 from pipeline.upload_check import check_upload  # noqa: E402
 
-CONTACT_EMAIL = "sagarikaraju2000@gmail.com"  
+CONTACT_EMAIL = os.environ.get("CONTACT_EMAIL", "your-email@example.com") 
 MAX_QUESTIONS = 10
 DETECTORS = ["rules", "isolation_forest", "lof", "hbos"]
 
