@@ -1,14 +1,12 @@
 """Check an uploaded trip file and score it without changing the training data.
 
-Rules:
+Uses saved summaries, so it runs without the raw trip files:
   - Only 2026 Q3 and later are accepted.
   - The file must cover one complete quarter (trips on its last day).
-  - If the file matches our copy of that quarter, show the saved report.
-  - If it differs from our copy, or is a new quarter, score it with the
-    saved model for that quarter.
-  - Nothing is added to training data or data/manifest.json.
+  - If the file matches the saved checksum for that quarter, the saved report is shown.
+  - Otherwise the file passes the quality gate and is scored with the saved model.
+  - Nothing is saved or added to training.
 """
-import glob
 import hashlib
 import json
 import os
@@ -22,21 +20,43 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
 from comparison.report import assemble_report, same_quarter_rows, score_trips, trip_examples  # noqa: E402
-from comparison.run_same_quarter import load  # noqa: E402
-from comparison.same_quarter import FIRST_YEAR, compare_quarter  # noqa: E402
-from comparison.reasons import profile  # noqa: E402
+from comparison.same_quarter import FIRST_YEAR, compare_summaries, summarise  # noqa: E402
 from pipeline.normalize import load_quarter  # noqa: E402
 from pipeline.quality_gate import run_checks  # noqa: E402
 
 FIRST_ACCEPTED = (2026, 3)
+SUMMARIES = os.path.join(ROOT, "data", "summaries")
+MIN_PAST = 3
 
 
 def _sha256(path):
-    h = hashlib.sha256()
     with open(path, "rb") as f:
-        for chunk in iter(lambda: f.read(1 << 20), b""):
-            h.update(chunk)
-    return h.hexdigest()
+        return hashlib.sha256(f.read()).hexdigest()
+
+
+def _load_json(path):
+    with open(path) as f:
+        return json.load(f)
+
+
+def _saved_past(year, q):
+    """Saved summaries of earlier same-quarter years: one row per year."""
+    rows = {}
+    for y in range(FIRST_YEAR, year):
+        path = os.path.join(SUMMARIES, f"{y}-Q{q}.json")
+        if os.path.exists(path):
+            rows[y] = _load_json(path)["summary"]
+    return pd.DataFrame(rows).T
+
+
+def _saved_profile(year, q):
+    path = os.path.join(SUMMARIES, "profiles", f"{year}-Q{q}.json")
+    if not os.path.exists(path):
+        return None
+    p = _load_json(path)
+    return (pd.Series(p["median"], dtype=float),
+            pd.Series(p["iqr"], dtype=float),
+            pd.Series(p["pass_shares"], dtype=float))
 
 
 def _rejected(message):
@@ -51,17 +71,16 @@ def _check(path):
     year, q = main.year, main.quarter
 
     if (year, q) < FIRST_ACCEPTED:
-        return _rejected(f"Only 2026-Q3 and later can be uploaded. This file is "
-                         f"{year}-Q{q}.")
+        return _rejected(f"Only 2026-Q3 and later can be uploaded. This file is {year}-Q{q}.")
     if periods.nunique() > 1:
         return _rejected("This file covers more than one quarter. Upload one quarter at a time.")
 
-    stored = glob.glob(os.path.join(ROOT, "data", "raw", f"{year}-Q{q}", "*.csv"))
-    if stored and _sha256(stored[0]) == _sha256(path):
+    stored_path = os.path.join(SUMMARIES, f"{year}-Q{q}.json")
+    stored = _load_json(stored_path) if os.path.exists(stored_path) else None
+    if stored and stored["sha256"] == _sha256(path):
         report_path = os.path.join(ROOT, "results", "reports", f"report_{year}Q{q}.json")
         if os.path.exists(report_path):
-            with open(report_path) as f:
-                report = json.load(f)
+            report = _load_json(report_path)
             report["status"] = "stored"
             return report
 
@@ -82,16 +101,16 @@ def _check(path):
                          f"python -m training.save_latest_model {year} {q} first.")
     bundle = joblib.load(model_path)
 
-    frames = {}
-    for y in range(FIRST_YEAR, year + 1):
-        if glob.glob(os.path.join(ROOT, "data", "raw", f"{y}-Q{q}", "*.csv")):
-            frames[(y, q)] = load(y, q) if y < year else df
+    past = _saved_past(year, q)
+    if len(past) < MIN_PAST:
+        return _rejected(f"Not enough earlier {year - FIRST_YEAR}-year history for Q{q}.")
+    compare_df = compare_summaries(summarise(df), past)
+
     gate = {"gate_passed": True, "gate_failures": []}
     index, scores, flagged = score_trips(df, bundle)
-    prof = profile({k: v for k, v in frames.items() if k[1] == q and k[0] < year})
-    examples = trip_examples(df, index, scores, flagged, prof)
-    same = same_quarter_rows(compare_quarter(frames, year, q))
-    result = assemble_report(year, q, gate, len(index), int(flagged.sum()), examples, same)
+    examples = trip_examples(df, index, scores, flagged, _saved_profile(year, q))
+    result = assemble_report(year, q, gate, len(index), int(flagged.sum()),
+                             examples, same_quarter_rows(compare_df))
     result["status"] = "differs_from_stored" if stored else "new"
     return result
 

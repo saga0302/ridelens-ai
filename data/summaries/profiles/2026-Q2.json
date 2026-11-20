@@ -1,0 +1,28 @@
+{
+  "median": {
+    "duration_min": 15.0,
+    "distance_km": 0.9683106373856477,
+    "start_hour": 15.0
+  },
+  "iqr": {
+    "duration_min": 22.0,
+    "distance_km": 1.6461703675055654,
+    "start_hour": 7.0
+  },
+  "pass_shares": {
+    "pass_Monthly Pass": 0.59366105789308,
+    "pass_Walk-up": 0.23373102300689372,
+    "pass_One Day Pass": 0.08461345720178093,
+    "pass_Annual Pass": 0.08784348116595674,
+    "pass_Flex Pass": 0.00015098073228867517
+  },
+  "past_quarters": [
+    "2019-Q2",
+    "2020-Q2",
+    "2021-Q2",
+    "2022-Q2",
+    "2023-Q2",
+    "2024-Q2",
+    "2025-Q2"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "year": 2019,
+  "quarter": 1,
+  "rows": 57347,
+  "sha256": "34195a4a00990fa4a21ac73b1665e2e830639f4be3e73cefcdd5a28ef3e0c980",
+  "summary": {
+    "median_duration_min": 12.0,
+    "median_distance_km": 0.8491088780095302,
+    "mean_start_hour": 13.922262716445498,
+    "trips": 57347.0,
+    "share_is_weekend": 0.2543637853767416,
+    "share_is_round_trip": 0.13407850454252185,
+    "share_pass_Monthly Pass": 0.5089019477915148,
+    "share_pass_Walk-up": 0.37304479746107033,
+    "share_pass_One Day Pass": 0.0476223690864387,
+    "share_pass_Annual Pass": 0.06659459082428026,
+    "share_pass_Flex Pass": 0.003836294836695904
+  }
+}
